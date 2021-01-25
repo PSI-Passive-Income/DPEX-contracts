@@ -1,4 +1,4 @@
-// npx hardhat run scripts/mis.ts
+// npx hardhat run scripts/router.ts
 
 require("dotenv").config({path: `${__dirname}/.env`});
 import { BigNumber, ContractTransaction, PayableOverrides } from "ethers";
@@ -33,7 +33,7 @@ const main = async() => {
     await calHash.deployed();
     console.log(await calHash.getInitHash());
 
-    const signer = ethers.provider.getSigner("0x6ACD3eaB4e6F05612B140282e122E1A35429B0DB");
+    const signer = ethers.provider.getSigner(process.env.IMPERSONATE_WALLET);
     const weth: string = "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2";
     const wethContract = new ethers.Contract(weth, ierc20ABI, signer) as IERC20;
 
