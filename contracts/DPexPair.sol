@@ -3,21 +3,22 @@
 pragma solidity ^0.7.4;
 
 import "@openzeppelin/contracts/math/SafeMath.sol";
+import "@openzeppelin/contracts-upgradeable/proxy/Initializable.sol";
 import "./interfaces/uniswap/IUniswapV2Factory.sol";
 import "./interfaces/uniswap/IUniswapV2Pair.sol";
 import "./libraries/Math.sol";
 import "./libraries/UQ112x112.sol";
+import "./abstracts/Governable.sol";
 import "./abstracts/SafeGas.sol";
 import "./abstracts/DPexERC20.sol";
 
-contract DPexPair is IUniswapV2Pair, SafeGas, DPexERC20 {
+contract DPexPair is IUniswapV2Pair, Initializable, Governable, DPexERC20, SafeGas {
     using SafeMath  for uint;
     using UQ112x112 for uint224;
 
     uint public constant override MINIMUM_LIQUIDITY = 10**3;
     bytes4 private constant SELECTOR = bytes4(keccak256(bytes('transfer(address,uint256)')));
 
-    bool private initialized = false;
     address public override factory;
     address public override token0;
     address public override token1;
@@ -38,6 +39,14 @@ contract DPexPair is IUniswapV2Pair, SafeGas, DPexERC20 {
         unlocked = 1;
     }
 
+    // called once by the factory at time of deployment
+    function initialize(address _gov_contract, address _token0, address _token1) public override initializer {
+        super.initialize(_gov_contract);
+        factory = msg.sender;
+        token0 = _token0;
+        token1 = _token1;
+    }
+
     function getReserves() public override view 
     returns (uint112 _reserve0, uint112 _reserve1, uint32 _blockTimestampLast) {
         _reserve0 = reserve0;
@@ -48,15 +57,6 @@ contract DPexPair is IUniswapV2Pair, SafeGas, DPexERC20 {
     function _safeTransfer(address token, address to, uint value) private {
         (bool success, bytes memory data) = token.call(abi.encodeWithSelector(SELECTOR, to, value));
         require(success && (data.length == 0 || abi.decode(data, (bool))), 'UniswapV2: TRANSFER_FAILED');
-    }
-
-    // called once by the factory at time of deployment
-    function initialize(address _factory, address _token0, address _token1) external override {
-        require(!initialized, 'UniswapV2: FORBIDDEN'); // sufficient check
-        factory = _factory;
-        token0 = _token0;
-        token1 = _token1;
-        initialized = true;
     }
 
     // update reserves and, on the first call per block, price accumulators

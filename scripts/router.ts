@@ -2,7 +2,7 @@
 
 require("dotenv").config({path: `${__dirname}/.env`});
 import { BigNumber, ContractTransaction, PayableOverrides } from "ethers";
-import { network, ethers } from "hardhat";
+import { network, ethers, upgrades } from "hardhat";
 import { DPexFactory } from "../typechain/DPexFactory";
 import DPexFactoryAbi from "../abi/contracts/DPexFactory.sol/DPexFactory.json";
 import { IERC20 } from "../typechain/IERC20";
@@ -28,11 +28,6 @@ const main = async() => {
         params: [process.env.IMPERSONATE_WALLET]
     });
 
-    const CalHash = await ethers.getContractFactory("CalHash");
-    const calHash: CalHash = await CalHash.deploy() as CalHash;
-    await calHash.deployed();
-    console.log(await calHash.getInitHash());
-
     const signer = ethers.provider.getSigner(process.env.IMPERSONATE_WALLET);
     const weth: string = "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2";
     const wethContract = new ethers.Contract(weth, ierc20ABI, signer) as IERC20;
@@ -40,24 +35,31 @@ const main = async() => {
     const psi: string = "0xD4Cb461eACe80708078450e465881599d2235f1A";
     const psiContract = new ethers.Contract(psi, ierc20ABI, signer) as IERC20;
 
+    const CalHash = await ethers.getContractFactory("CalHash");
+    const calHash: CalHash = await CalHash.deploy() as CalHash;
+    await calHash.deployed();
+    console.log(await calHash.getInitHash());
+
     const DPexGovernance = await ethers.getContractFactory("DPexGovernance");
-    const governance: DPexGovernance = await DPexGovernance.deploy() as DPexGovernance;
+    const governance: DPexGovernance = await upgrades.deployProxy(DPexGovernance, [], { initializer: 'initialize' }) as DPexGovernance;
     await governance.deployed();
     console.log("DPexGovernance deployed to:", governance.address);
 
     const DPexFeeAggregator = await ethers.getContractFactory("DPexFeeAggregator");
-    const aggregator: DPexFeeAggregator = await DPexFeeAggregator.deploy(governance.address, weth, psi) as DPexFeeAggregator;
+    const aggregator: DPexFeeAggregator = await upgrades.deployProxy(DPexFeeAggregator, [governance.address, weth, psi], { initializer: 'initialize', unsafeAllowCustomTypes: true }) as DPexFeeAggregator;
     await aggregator.deployed();
     console.log("DPexFeeAggregator deployed to:", aggregator.address);
 
     const DPexFactory = await ethers.getContractFactory("DPexFactory");
-    const factory: DPexFactory = await DPexFactory.deploy(signer._address) as DPexFactory;
+    const factory: DPexFactory = await upgrades.deployProxy(DPexFactory, [signer._address, governance.address], { initializer: 'initialize' }) as DPexFactory;
     await factory.deployed();
     console.log("DPexFactory deployed to:", factory.address);
 
     const DPexRouter = await ethers.getContractFactory("DPexRouter");
-    const router: DPexRouter = await DPexRouter.deploy(factory.address, weth, governance.address, aggregator.address) as DPexRouter;
+    const router: DPexRouter = await DPexRouter.deploy() as DPexRouter;
+    // const router: DPexRouter = await upgrades.deployProxy(DPexRouter, [factory.address, weth, governance.address, aggregator.address], { initializer: 'initialize' }) as DPexRouter;
     await router.deployed();
+    await router.initialize(factory.address, weth, governance.address, aggregator.address);
     await aggregator.setRouter(router.address);
     await aggregator.addFeeToken(weth);
     await aggregator.addFeeToken(psi);

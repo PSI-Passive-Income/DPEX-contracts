@@ -5,6 +5,7 @@ pragma solidity ^0.7.4;
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/SafeERC20.sol";
 import "@openzeppelin/contracts/math/SafeMath.sol";
+import "@openzeppelin/contracts-upgradeable/proxy/Initializable.sol";
 import "./libraries/UniswapV2Library.sol";
 import "./libraries/TransferHelper.sol";
 import "./interfaces/uniswap/IUniswapV2Factory.sol";
@@ -16,11 +17,11 @@ import "./interfaces/ICHI.sol";
 import "./abstracts/Governable.sol";
 import "./abstracts/SafeGas.sol";
 
-contract DPexRouter is IDPexRouter, Governable, SafeGas {
+contract DPexRouter is Initializable, IDPexRouter, Governable, SafeGas {
     using SafeMath for uint;
 
-    address public immutable override factory;
-    address public immutable override WETH;
+    address public override factory;
+    address public override WETH;
     address public override feeAggregator;
 
     modifier ensure(uint deadline) {
@@ -32,8 +33,9 @@ contract DPexRouter is IDPexRouter, Governable, SafeGas {
         _;
     }
 
-    constructor(address _factory, address _WETH, address gov_contract, address _aggregator)
-    Governable(gov_contract) {
+    function initialize(address _factory, address _WETH, address _gov_contract, address _aggregator) 
+    public initializer {
+        super.initialize(_gov_contract);
         factory = _factory;
         WETH = _WETH;
         feeAggregator = _aggregator;

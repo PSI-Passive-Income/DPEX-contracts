@@ -2,13 +2,13 @@
 
 pragma solidity ^0.7.4;
 
-import "@openzeppelin/contracts/GSN/Context.sol";
-import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@openzeppelin/contracts/utils/Address.sol";
 import "@openzeppelin/contracts/math/SafeMath.sol";
+import "@openzeppelin/contracts-upgradeable/proxy/Initializable.sol";
+import "@openzeppelin/contracts-upgradeable/GSN/ContextUpgradeable.sol";
 import "./interfaces/IGovernable.sol";
 
-contract DPexGovernance is IGovernable, Context {
+contract DPexGovernance is IGovernable, Initializable, ContextUpgradeable {
     using SafeMath for uint256;
     using Address for address;
 
@@ -24,17 +24,24 @@ contract DPexGovernance is IGovernable, Context {
     */
     mapping(address => uint256) public governanceLevels;
 
+    /**
+     * gas (chi) token to be used in contracts
+     */
+    address public override gasToken;
+
 
     //== EVENTS ==
     event GovernanceLevelChanged(address indexed addressChanged, uint256 oldLevel, uint256 newLevel);
 
 
-    //== CONSTRUCTOR ==
+    //== CONSTRUCTOR, initialize for upgradeability ==
     /**
      * @dev Initializes the contract setting the deployer as the initial Governor.
+     * called once by the upgrade factory at time of deployment
      */
-    constructor () {
+    function initialize() external initializer {
         _setGovernanceLevel(_msgSender(), 100);
+        gasToken = 0x0000000000004946c0e9F43F4Dee607b0eF1fA1c;
     }
 
 
@@ -72,12 +79,6 @@ contract DPexGovernance is IGovernable, Context {
 
 
     //== SET INTERNAL VARIABLES==
-    /**
-    * @dev only Mastermind can kill contract to clean network space
-    */
-    function killContract() external onlyMastermind {
-        selfdestruct(_msgSender()); //destroys the contract
-    }
     /**
      * @dev Setting a new governance level for the address ('_address').
      * only allowed to change levels below or lower your own level

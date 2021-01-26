@@ -2,22 +2,22 @@
 
 pragma solidity ^0.7.4;
 
-import "hardhat/console.sol";
-
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import '@openzeppelin/contracts/token/ERC20/SafeERC20.sol';
-import "@openzeppelin/contracts/GSN/Context.sol";
 import "@openzeppelin/contracts/utils/Address.sol";
 import "@openzeppelin/contracts/utils/EnumerableSet.sol";
-import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/math/SafeMath.sol";
+import "@openzeppelin/contracts-upgradeable/proxy/Initializable.sol";
+import "@openzeppelin/contracts-upgradeable/GSN/ContextUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/utils/ReentrancyGuardUpgradeable.sol";
 import "./libraries/TransferHelper.sol";
 import "./interfaces/IDPexFeeAggregator.sol";
 import "./interfaces/IDPexRouter.sol";
 import "./abstracts/Governable.sol";
 import "./abstracts/SafeGas.sol";
 
-contract DPexFeeAggregator is IDPexFeeAggregator, Context, ReentrancyGuard, Governable, SafeGas {
+contract DPexFeeAggregator is IDPexFeeAggregator, Initializable, ContextUpgradeable, 
+ReentrancyGuardUpgradeable, Governable, SafeGas {
     using SafeERC20 for IERC20;
     using Address for address;
     using SafeMath for uint;
@@ -49,7 +49,7 @@ contract DPexFeeAggregator is IDPexFeeAggregator, Context, ReentrancyGuard, Gove
     /**
      * @notice percentage which get deducted from a swap (1 = 0.1%)
      */
-    uint256 public dpexFee = 1;
+    uint256 public dpexFee;
     /**
      * @notice token fees gathered in the current period
      */
@@ -57,7 +57,7 @@ contract DPexFeeAggregator is IDPexFeeAggregator, Context, ReentrancyGuard, Gove
     /**
      * @notice returns the latest reward snapshot id
      */
-    uint public latestRewardSnapshotId = 0;
+    uint public latestRewardSnapshotId;
     /**
      * @notice all user reward snapshots taken
      */
@@ -68,9 +68,12 @@ contract DPexFeeAggregator is IDPexFeeAggregator, Context, ReentrancyGuard, Gove
     /**
      * @dev Initializes the contract setting the deployer as the initial Governor.
      */
-    constructor (address gov_contract, address _WETH, address _psi)
-    Governable(gov_contract) 
-    ReentrancyGuard() {
+    function initialize(address _gov_contract, address _WETH, address _psi) public initializer {
+        __Context_init();
+        __ReentrancyGuard_init();
+        super.initialize(_gov_contract);
+        dpexFee = 1;
+        latestRewardSnapshotId = 0;
         psi = _psi;
         WETH = _WETH;
     }

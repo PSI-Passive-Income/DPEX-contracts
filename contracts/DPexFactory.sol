@@ -2,18 +2,18 @@
 
 pragma solidity ^0.7.4;
 
-import "hardhat/console.sol";
-
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts-upgradeable/proxy/Initializable.sol";
 import "./interfaces/uniswap/IUniswapV2Factory.sol";
 import "./interfaces/uniswap/IUniswapV2Pair.sol";
 import "./interfaces/uniswap/IUniswapV2ERC20.sol";
 import "./interfaces/uniswap/IUniswapV2Callee.sol";
 import "./interfaces/ICHI.sol";
+import "./abstracts/Governable.sol";
 import "./abstracts/SafeGas.sol";
 import "./DPexPair.sol";
 
-contract DPexFactory is IUniswapV2Factory, SafeGas {
+contract DPexFactory is IUniswapV2Factory, Initializable, Governable, SafeGas {
     bytes32 public constant INIT_CODE_PAIR_HASH = keccak256(abi.encodePacked(type(DPexPair).creationCode));
     address public override feeTo;
     address public override feeToSetter;
@@ -21,7 +21,8 @@ contract DPexFactory is IUniswapV2Factory, SafeGas {
     mapping(address => mapping(address => address)) public override getPair;
     address[] public override allPairs;
 
-    constructor(address _feeToSetter) {
+    function initialize(address _feeToSetter, address _gov_contract) public initializer {
+        super.initialize(_gov_contract);
         feeToSetter = _feeToSetter;
     }
 
@@ -38,17 +39,18 @@ contract DPexFactory is IUniswapV2Factory, SafeGas {
         bytes memory bytecode = type(DPexPair).creationCode;
         bytes32 salt = keccak256(abi.encodePacked(token0, token1));
         assembly {
-            pair := create2(0, add(bytecode, 32), mload(bytecode), salt)
+            pair := create2(0, add(bytecode, 0x20), mload(bytecode), salt)
         }
         
         require(pair != address(0), "DPexFactory: ERROR_CREATING_PAIR");
-        IUniswapV2Pair(pair).initialize(address(this), token0, token1);
+        IUniswapV2Pair(pair).initialize(gov_contract, token0, token1);
 
         getPair[token0][token1] = pair;
         getPair[token1][token0] = pair; // populate mapping in the reverse direction
         allPairs.push(pair);
         emit PairCreated(token0, token1, pair, allPairs.length);
     }
+
 
     function setFeeTo(address _feeTo) external override useCHI {
         require(msg.sender == feeToSetter, 'DPexFactory: FORBIDDEN');

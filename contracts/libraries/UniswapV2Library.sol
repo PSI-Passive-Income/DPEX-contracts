@@ -2,8 +2,6 @@
 
 pragma solidity ^0.7.4;
 
-import "hardhat/console.sol";
-
 import "@openzeppelin/contracts/math/SafeMath.sol";
 import "../interfaces/uniswap/IUniswapV2Pair.sol";
 
@@ -24,7 +22,7 @@ library UniswapV2Library {
                 hex'ff',
                 factory,
                 keccak256(abi.encodePacked(token0, token1)),
-                hex'589401bde20c5b70aca00d77cf557ccf2b47c191586b80ae7d69300df2f58aa2' // init code hash
+                hex'64d2c2ce6855c6537668ab7e7c6c134e6f8ea0fdb000e8cf27e72126394d7207' // init code hash
             ))));
     }
 

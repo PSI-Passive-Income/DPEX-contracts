@@ -50,7 +50,7 @@ export default class ContractUtils {
         if (allowance.lte(BigNumber.from(0))) {
             console.log(`Setting allowance for ${token.address}`);
             await ContractUtils.waitForTransaction(token.connect(signer).approve(address, 
-                ethers.utils.parseEther("11579208923731619542357098500868790785326998")));
+                ethers.utils.parseEther("115792089237316195423570985008687907853269984665640564039457.584007913129639935")));
         }
     }
 }
