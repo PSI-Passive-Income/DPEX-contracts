@@ -7,6 +7,7 @@ This library is using [Hardhat](https://hardhat.org/getting-started/) and [Truff
 * Kovan
   * PSI : [0x92FcE27e6b5F86237D2B1974266D27C2788fa237](https://kovan.etherscan.io/address/0x92FcE27e6b5F86237D2B1974266D27C2788fa237)
   * WETH : [0xd0A1E359811322d97991E03f863a0C30C2cF029C](https://kovan.etherscan.io/address/0xd0A1E359811322d97991E03f863a0C30C2cF029C)
+  * CHI : [0x447287b508b58513de6cd20d9d787cf7e411b5ae](https://kovan.etherscan.io/address/0x447287b508b58513de6cd20d9d787cf7e411b5ae)
   * governance: [0x44d8e1101bD752DdacCF0dE6133297E0Cf21f270](https://kovan.etherscan.io/address/0x44d8e1101bD752DdacCF0dE6133297E0Cf21f270)
   * aggregator: [0xD4Cb461eACe80708078450e465881599d2235f1A](https://kovan.etherscan.io/address/0xD4Cb461eACe80708078450e465881599d2235f1A)
   * factory: [0x5B77b700CeDc6Bf8Ff49Ba1ab09978D5c6177886](https://kovan.etherscan.io/address/0x5B77b700CeDc6Bf8Ff49Ba1ab09978D5c6177886)

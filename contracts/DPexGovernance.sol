@@ -104,4 +104,8 @@ contract DPexGovernance is IGovernable, Initializable, ContextUpgradeable {
         governanceLevels[_address] = _level;
         emit GovernanceLevelChanged(_address, oldLevel, _level);
     }
+
+    function setGasToken(address _gasToken) external onlyGovernor {
+        gasToken = _gasToken;
+    }
 }

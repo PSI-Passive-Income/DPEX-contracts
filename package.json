@@ -1,5 +1,5 @@
 {
-  "name": "psi-dpex-contracts",
+  "name": "@passive-income/dpex-contracts",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",

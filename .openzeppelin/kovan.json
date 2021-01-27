@@ -255,6 +255,58 @@
           }
         }
       }
+    },
+    "198fc066a29af6311944dda50c87e1eaf15a7f86763364079c6cd2cf7605942f": {
+      "address": "0x4B2560376a98667EE4576095c58D88Cc75b0026f",
+      "txHash": "0x85dc22c6df5e11708f7c14c973645b621cdd1b4bfcd6273ce4fe980e3ed45730",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Initializable",
+            "label": "_initialized",
+            "type": "t_bool",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\Initializable.sol:24"
+          },
+          {
+            "contract": "Initializable",
+            "label": "_initializing",
+            "type": "t_bool",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\Initializable.sol:29"
+          },
+          {
+            "contract": "ContextUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\GSN\\ContextUpgradeable.sol:31"
+          },
+          {
+            "contract": "DPexGovernance",
+            "label": "governanceLevels",
+            "type": "t_mapping(t_address,t_uint256)",
+            "src": "contracts\\DPexGovernance.sol:25"
+          },
+          {
+            "contract": "DPexGovernance",
+            "label": "gasToken",
+            "type": "t_address",
+            "src": "contracts\\DPexGovernance.sol:30"
+          }
+        ],
+        "types": {
+          "t_mapping(t_address,t_uint256)": {
+            "label": "mapping(address => uint256)"
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]"
+          },
+          "t_bool": {
+            "label": "bool"
+          }
+        }
+      }
     }
   },
   "admin": {
