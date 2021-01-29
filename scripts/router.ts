@@ -65,10 +65,6 @@ const main = async() => {
     await aggregator.addFeeToken(psi);
     console.log("DPexRouter deployed to:", router.address);
 
-    const chi = new ethers.Contract("0x0000000000004946c0e9F43F4Dee607b0eF1fA1c", ierc20ABI, signer) as IERC20;
-    await ContractUtils.checkAllowance(factory.address, signer, chi);
-    await ContractUtils.checkAllowance(router.address, signer, chi);
-
     console.log("Total pairs before:", (await factory.allPairsLength()).toNumber());
     await ContractUtils.waitForTransaction(factory.createPair(psi, weth));
     console.log("Total pairs after:", (await factory.allPairsLength()).toNumber());
@@ -78,8 +74,8 @@ const main = async() => {
     await ContractUtils.checkAllowance(router.address, signer, wethContract);
     await ContractUtils.checkAllowance(router.address, signer, psiContract);
 
-    const amountA = ethers.utils.parseUnits("2", 9);
-    const amountB = ethers.utils.parseEther("0.4");
+    const amountA = ethers.utils.parseUnits("1", 9);
+    const amountB = ethers.utils.parseEther("0.05");
     const minAmountA = ContractUtils.percentage(amountA, 75);
     const minAmountB = ContractUtils.percentage(amountB, 75);
     const options: PayableOverrides = { value: amountB };
@@ -90,8 +86,8 @@ const main = async() => {
 
     console.log("User psi balance: ", ethers.utils.formatUnits(await psiContract.balanceOf(signer._address), 9));
     console.log("User ETH balance: ", ethers.utils.formatEther(await signer.getBalance()));
-    const swapAmount = ethers.utils.parseUnits("0.5", 9);
-    const swapAmountMin = ethers.utils.parseEther("0.03");
+    const swapAmount = ethers.utils.parseUnits("0.01", 9);
+    const swapAmountMin = ethers.utils.parseEther("0.0001");
     const path = [psi, weth];
     const swaptransaction: ContractTransaction = await router.connect(signer)
       .swapExactTokensForETHSupportingFeeOnTransferTokens(swapAmount, swapAmountMin, path, signer._address, (new Date).getTime() + 2*60000);
@@ -100,10 +96,26 @@ const main = async() => {
     console.log("User psi balance: ", ethers.utils.formatUnits(await psiContract.balanceOf(signer._address), 9));
     console.log("User ETH balance: ", ethers.utils.formatEther(await signer.getBalance()));
 
+    const chi = new ethers.Contract("0x0000000000004946c0e9F43F4Dee607b0eF1fA1c", ierc20ABI, signer) as IERC20;
+    await ContractUtils.checkAllowance(factory.address, signer, chi);
+    await ContractUtils.checkAllowance(router.address, signer, chi);
+
     console.log("User psi balance: ", ethers.utils.formatUnits(await psiContract.balanceOf(signer._address), 9));
     console.log("User ETH balance: ", ethers.utils.formatEther(await signer.getBalance()));
-    const swapAmount2 = ethers.utils.parseEther("0.1");
-    const swapAmount2Min = ethers.utils.parseUnits("0.5", 9);
+    const swapAmount3 = ethers.utils.parseUnits("0.01", 9);
+    const swapAmountMin3 = ethers.utils.parseEther("0.0001");
+    const path3 = [psi, weth];
+    const swaptransaction3: ContractTransaction = await router.connect(signer)
+      .swapExactTokensForETHSupportingFeeOnTransferTokens(swapAmount3, swapAmountMin3, path3, signer._address, (new Date).getTime() + 2*60000);
+    const swapreceipt3 = await ethers.provider.waitForTransaction(swaptransaction3.hash);
+    console.log("Swapped psi to eth, gas used:", ethers.utils.formatUnits(swapreceipt3.gasUsed, "gwei"));
+    console.log("User psi balance: ", ethers.utils.formatUnits(await psiContract.balanceOf(signer._address), 9));
+    console.log("User ETH balance: ", ethers.utils.formatEther(await signer.getBalance()));
+
+    console.log("User psi balance: ", ethers.utils.formatUnits(await psiContract.balanceOf(signer._address), 9));
+    console.log("User ETH balance: ", ethers.utils.formatEther(await signer.getBalance()));
+    const swapAmount2 = ethers.utils.parseEther("0.0001");
+    const swapAmount2Min = ethers.utils.parseUnits("0.0001", 9);
     const path2 = [weth, psi];
     const options2: PayableOverrides = { value: swapAmount2 };
     const swaptransaction2: ContractTransaction = await router.connect(signer)

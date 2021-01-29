@@ -1,0 +1,264 @@
+{
+  "manifestVersion": "3.1",
+  "impls": {
+    "198fc066a29af6311944dda50c87e1eaf15a7f86763364079c6cd2cf7605942f": {
+      "address": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+      "txHash": "0xd73e30514780635437147fc7b65c78f6d2b49bafcc83bff70436799480a554d8",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Initializable",
+            "label": "_initialized",
+            "type": "t_bool",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\Initializable.sol:24"
+          },
+          {
+            "contract": "Initializable",
+            "label": "_initializing",
+            "type": "t_bool",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\Initializable.sol:29"
+          },
+          {
+            "contract": "ContextUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\GSN\\ContextUpgradeable.sol:31"
+          },
+          {
+            "contract": "DPexGovernance",
+            "label": "governanceLevels",
+            "type": "t_mapping(t_address,t_uint256)",
+            "src": "contracts\\DPexGovernance.sol:25"
+          },
+          {
+            "contract": "DPexGovernance",
+            "label": "gasToken",
+            "type": "t_address",
+            "src": "contracts\\DPexGovernance.sol:30"
+          }
+        ],
+        "types": {
+          "t_mapping(t_address,t_uint256)": {
+            "label": "mapping(address => uint256)"
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]"
+          },
+          "t_bool": {
+            "label": "bool"
+          }
+        }
+      }
+    },
+    "5437596ba8d6ac71a60146f529f918b9365315813804e4b12735b962d2d21d3d": {
+      "address": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
+      "txHash": "0xfa3d583ffb9b51e9cfb06fd926f62f3c7abc2e1265db7eb1cf56375c7b6fa786",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Initializable",
+            "label": "_initialized",
+            "type": "t_bool",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\Initializable.sol:24"
+          },
+          {
+            "contract": "Initializable",
+            "label": "_initializing",
+            "type": "t_bool",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\Initializable.sol:29"
+          },
+          {
+            "contract": "ContextUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\GSN\\ContextUpgradeable.sol:31"
+          },
+          {
+            "contract": "ReentrancyGuardUpgradeable",
+            "label": "_status",
+            "type": "t_uint256",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ReentrancyGuardUpgradeable.sol:37"
+          },
+          {
+            "contract": "ReentrancyGuardUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)49_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ReentrancyGuardUpgradeable.sol:67"
+          },
+          {
+            "contract": "Governable",
+            "label": "gov_contract",
+            "type": "t_address",
+            "src": "contracts\\abstracts\\Governable.sol:13"
+          },
+          {
+            "contract": "DPexFeeAggregator",
+            "label": "_feeTokens",
+            "type": "t_struct(AddressSet)1180_storage",
+            "src": "contracts\\DPexFeeAggregator.sol:33"
+          },
+          {
+            "contract": "DPexFeeAggregator",
+            "label": "_tokenHolders",
+            "type": "t_struct(AddressSet)1180_storage",
+            "src": "contracts\\DPexFeeAggregator.sol:34"
+          },
+          {
+            "contract": "DPexFeeAggregator",
+            "label": "_claimed",
+            "type": "t_mapping(t_address,t_uint256)",
+            "src": "contracts\\DPexFeeAggregator.sol:35"
+          },
+          {
+            "contract": "DPexFeeAggregator",
+            "label": "router",
+            "type": "t_address",
+            "src": "contracts\\DPexFeeAggregator.sol:40"
+          },
+          {
+            "contract": "DPexFeeAggregator",
+            "label": "psi",
+            "type": "t_address",
+            "src": "contracts\\DPexFeeAggregator.sol:44"
+          },
+          {
+            "contract": "DPexFeeAggregator",
+            "label": "WETH",
+            "type": "t_address",
+            "src": "contracts\\DPexFeeAggregator.sol:48"
+          },
+          {
+            "contract": "DPexFeeAggregator",
+            "label": "dpexFee",
+            "type": "t_uint256",
+            "src": "contracts\\DPexFeeAggregator.sol:52"
+          },
+          {
+            "contract": "DPexFeeAggregator",
+            "label": "tokensGathered",
+            "type": "t_mapping(t_address,t_uint256)",
+            "src": "contracts\\DPexFeeAggregator.sol:56"
+          },
+          {
+            "contract": "DPexFeeAggregator",
+            "label": "latestRewardSnapshotId",
+            "type": "t_uint256",
+            "src": "contracts\\DPexFeeAggregator.sol:60"
+          },
+          {
+            "contract": "DPexFeeAggregator",
+            "label": "rewardSnapshots",
+            "type": "t_mapping(t_uint256,t_struct(RewardSnapshot)1703_storage)",
+            "src": "contracts\\DPexFeeAggregator.sol:64"
+          }
+        ],
+        "types": {
+          "t_struct(AddressSet)1180_storage": {
+            "label": "struct EnumerableSet.AddressSet"
+          },
+          "t_mapping(t_address,t_uint256)": {
+            "label": "mapping(address => uint256)"
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_mapping(t_uint256,t_struct(RewardSnapshot)1703_storage)": {
+            "label": "mapping(uint256 => struct DPexFeeAggregator.RewardSnapshot)"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]"
+          },
+          "t_bool": {
+            "label": "bool"
+          }
+        }
+      }
+    },
+    "dd9659df605afeba2b233896a3a1370529a12b8769937e32cefff264e5e02ad6": {
+      "address": "0x0165878A594ca255338adfa4d48449f69242Eb8F",
+      "txHash": "0x913a9287fd02005cf2c615781d5a05119d64708344f650054bd5f4c63a8a2ef3",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Initializable",
+            "label": "_initialized",
+            "type": "t_bool",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\Initializable.sol:24"
+          },
+          {
+            "contract": "Initializable",
+            "label": "_initializing",
+            "type": "t_bool",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\Initializable.sol:29"
+          },
+          {
+            "contract": "ContextUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\GSN\\ContextUpgradeable.sol:31"
+          },
+          {
+            "contract": "Governable",
+            "label": "gov_contract",
+            "type": "t_address",
+            "src": "contracts\\abstracts\\Governable.sol:13"
+          },
+          {
+            "contract": "DPexFactory",
+            "label": "feeTo",
+            "type": "t_address",
+            "src": "contracts\\DPexFactory.sol:18"
+          },
+          {
+            "contract": "DPexFactory",
+            "label": "feeToSetter",
+            "type": "t_address",
+            "src": "contracts\\DPexFactory.sol:19"
+          },
+          {
+            "contract": "DPexFactory",
+            "label": "getPair",
+            "type": "t_mapping(t_address,t_mapping(t_address,t_address))",
+            "src": "contracts\\DPexFactory.sol:21"
+          },
+          {
+            "contract": "DPexFactory",
+            "label": "allPairs",
+            "type": "t_array(t_address)dyn_storage",
+            "src": "contracts\\DPexFactory.sol:22"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address"
+          },
+          "t_mapping(t_address,t_mapping(t_address,t_address))": {
+            "label": "mapping(address => mapping(address => address))"
+          },
+          "t_array(t_address)dyn_storage": {
+            "label": "address[]"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]"
+          },
+          "t_bool": {
+            "label": "bool"
+          }
+        }
+      }
+    }
+  },
+  "admin": {
+    "address": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
+    "txHash": "0xefed89ace046a0aa2e30498a59e245575829ecd513cd1e265f3f41b57891776d"
+  }
+}

@@ -29,6 +29,16 @@ contract DPexGovernance is IGovernable, Initializable, ContextUpgradeable {
      */
     address public override gasToken;
 
+    /**
+     * Add a gas promotions so gas is taken from the current contract
+     */
+    bool public override enableGasPromotion;
+
+    /**
+     * router currently used for trading
+     */
+    address public override router;
+
 
     //== EVENTS ==
     event GovernanceLevelChanged(address indexed addressChanged, uint256 oldLevel, uint256 newLevel);
@@ -107,5 +117,12 @@ contract DPexGovernance is IGovernable, Initializable, ContextUpgradeable {
 
     function setGasToken(address _gasToken) external onlyGovernor {
         gasToken = _gasToken;
+    }
+    function setEnableGasPromotion(bool _enableGasPromotion) external onlyGovernor {
+        enableGasPromotion = _enableGasPromotion;
+    }
+    function setRouter(address _router) external onlyGovernor {
+        require(_router != address(0), "DPexGovernance: ROUTER_NO_ADDRESS");
+        router = _router;
     }
 }

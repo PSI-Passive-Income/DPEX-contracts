@@ -17,7 +17,6 @@ interface IDPexFeeAggregator {
     function addTokenHolder(address user) external;
     function removeTokenHolder() external;
     function removeTokenHolder(address user) external;
-    function setRouter(address _router) external;
     function addFeeToken(address token) external;
     function removeFeeToken(address token) external;
     function setDPexFee(uint256 fee) external;

@@ -55,6 +55,13 @@ abstract contract Governable is ContextUpgradeable, IGovernable {
     function gasToken() public override view returns (address) {
         return IGovernable(gov_contract).gasToken();
     }
+    function enableGasPromotion() public override view returns (bool) {
+        return IGovernable(gov_contract).enableGasPromotion();
+    }
+    
+    function router() public override view returns (address) {
+        return IGovernable(gov_contract).router();
+    }
 
 
     //== SET INTERNAL VARIABLES==

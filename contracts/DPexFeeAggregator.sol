@@ -35,10 +35,6 @@ ReentrancyGuardUpgradeable, Governable, SafeGas {
     mapping(address => uint256) private _claimed; // total amount of psi claimed by a user
 
     /**
-     * @notice the connected uniswap router where the fee is taken from swaps
-     */
-    address public router;
-    /**
      * @notice psi token contract
      */
     address public psi;
@@ -85,7 +81,7 @@ ReentrancyGuardUpgradeable, Governable, SafeGas {
         _;
     }
     modifier onlyRouter() {
-        require(router == _msgSender(), "DPexFeeAggregator: ONLY_ROUTER_ALLOWED");
+        require(router() == _msgSender(), "DPexFeeAggregator: ONLY_ROUTER_ALLOWED");
         _;
     }
 
@@ -208,22 +204,13 @@ ReentrancyGuardUpgradeable, Governable, SafeGas {
     }
 
     /**
-     * @notice changes the router where the fee is taken from swaps
-     * @param _router router address
-     */
-    function setRouter(address _router) external override onlyGovernor {
-        require(_router != address(0), "DPexFeeAggregator: ROUTER_NO_ADDRESS");
-        router = _router;
-    }
-
-    /**
      * @notice add a token to deduct a fee for on swap
      * @param token fee token to add
      */
     function addFeeToken(address token) public override onlyGovernor {
         require(!_feeTokens.contains(token), "DPexFeeAggregator: ALREADY_FEE_TOKEN");
         _feeTokens.add(token);
-        IERC20(token).approve(router, 1e18);
+        IERC20(token).approve(router(), 1e18);
     }
     /**
      * @notice remove a token to deduct a fee for on swap
@@ -289,7 +276,7 @@ ReentrancyGuardUpgradeable, Governable, SafeGas {
                 address[] memory path = new address[](2);
                 path[0] = token;
                 path[1] = WETH;
-                IDPexRouter(router).swapAggregatorToken(tokenBalance, path, address(this));
+                IDPexRouter(router()).swapAggregatorToken(tokenBalance, path, address(this));
             }
         }
 
@@ -303,7 +290,7 @@ ReentrancyGuardUpgradeable, Governable, SafeGas {
         address[] memory path = new address[](2);
         path[0] = WETH;
         path[1] = psi;
-        IDPexRouter(router).swapAggregatorToken(balance, path, address(this));
+        IDPexRouter(router()).swapAggregatorToken(balance, path, address(this));
     }
 
     /**

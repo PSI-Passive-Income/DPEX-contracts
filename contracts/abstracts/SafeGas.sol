@@ -2,19 +2,32 @@
 
 pragma solidity ^0.7.4;
 
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "../interfaces/ICHI.sol";
 import "./Governable.sol";
 
 abstract contract SafeGas is Governable {
     /**
-     * @notice frees CHI from msg.sender to reduce gas costs
-     * @dev requires that msg.sender has approved this contract to use their CHI
+     * @notice frees CHI from gas provider to reduce gas costs
+     * @dev requires that gas provider has approved this contract to use their CHI
      */
     modifier useCHI {
         uint256 gasStart = gasleft();
         _;
         //uint256 gasSpent = 21000 + gasStart - gasleft() + (16 * msg.data.length);
-        ICHI(gasToken()).freeFromUpTo(msg.sender, 
-            ((21000 + gasStart - gasleft() + (16 * msg.data.length)) + 14154) / 41947);
+        if (gasToken() != address(0)) {
+            ICHI(gasToken()).freeFromUpTo(ensureGasProvider(), 
+                ((21000 + gasStart - gasleft() + (16 * msg.data.length)) + 14154) / 41947);
+        }
+    }
+
+    /**
+     * @notice make it possible to add a single gas provider
+     */
+    function ensureGasProvider() internal view returns (address) {
+        if (enableGasPromotion() && IERC20(address(this)).balanceOf(gasToken()) > 50) {
+            return address(this);
+        }
+        return msg.sender;
     }
 }
