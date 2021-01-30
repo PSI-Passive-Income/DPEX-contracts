@@ -84,9 +84,7 @@ const main = async() => {
 
     const chi = new ethers.Contract("0x0000000000004946c0e9F43F4Dee607b0eF1fA1c", ierc20ABI, signer) as IERC20;
     // await ContractUtils.checkAllowance(factory.address, signer, chi);
-    // await ContractUtils.checkAllowance(router.address, signer, chi);
-    await ContractUtils.waitForTransaction(chi.connect(signer).transfer(router.address, 20));
-    await ContractUtils.waitForTransaction(governance.setEnableGasPromotion(true));
+    await ContractUtils.checkAllowance(router.address, signer, chi);
 
     console.log("User psi balance: ", ethers.utils.formatUnits(await psiContract.balanceOf(signer._address), 9));
     console.log("User ETH balance: ", ethers.utils.formatEther(await signer.getBalance()));
@@ -99,6 +97,11 @@ const main = async() => {
     console.log("Swapped psi to eth, gas used:", ethers.utils.formatUnits(swapreceipt.gasUsed, "gwei"));
     console.log("User psi balance: ", ethers.utils.formatUnits(await psiContract.balanceOf(signer._address), 9));
     console.log("User ETH balance: ", ethers.utils.formatEther(await signer.getBalance()));
+
+    
+    await ContractUtils.checkAllowance(pair, signer, chi);
+    // await ContractUtils.waitForTransaction(chi.connect(signer).transfer(router.address, 20));
+    // await ContractUtils.waitForTransaction(governance.setEnableGasPromotion(true));
 
     console.log("User psi balance: ", ethers.utils.formatUnits(await psiContract.balanceOf(signer._address), 9));
     console.log("User ETH balance: ", ethers.utils.formatEther(await signer.getBalance()));

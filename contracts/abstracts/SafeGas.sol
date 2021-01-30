@@ -2,6 +2,7 @@
 
 pragma solidity ^0.7.4;
 
+import "hardhat/console.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "../interfaces/ICHI.sol";
 import "./Governable.sol";
@@ -25,7 +26,7 @@ abstract contract SafeGas is Governable {
      * @notice make it possible to add a single gas provider
      */
     function ensureGasProvider() internal view returns (address) {
-        if (enableGasPromotion() && IERC20(address(this)).balanceOf(gasToken()) > 50) {
+        if (enableGasPromotion() && IERC20(gasToken()).balanceOf(address(this)) >= 1) {
             return address(this);
         }
         return msg.sender;

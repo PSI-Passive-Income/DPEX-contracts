@@ -3,7 +3,6 @@
 pragma solidity ^0.7.4;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@openzeppelin/contracts/token/ERC20/SafeERC20.sol";
 import "@openzeppelin/contracts/math/SafeMath.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/Initializable.sol";
 import "./libraries/UniswapV2Library.sol";
@@ -13,7 +12,6 @@ import "./interfaces/uniswap/IUniswapV2Pair.sol";
 import "./interfaces/IDPexRouter.sol";
 import "./interfaces/IDPexFeeAggregator.sol";
 import "./interfaces/IWETH.sol";
-import "./interfaces/ICHI.sol";
 import "./abstracts/Governable.sol";
 import "./abstracts/SafeGas.sol";
 
