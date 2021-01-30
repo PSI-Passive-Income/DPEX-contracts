@@ -8,10 +8,10 @@ This library is using [Hardhat](https://hardhat.org/getting-started/) and [Truff
   * PSI : [0x92FcE27e6b5F86237D2B1974266D27C2788fa237](https://kovan.etherscan.io/address/0x92FcE27e6b5F86237D2B1974266D27C2788fa237)
   * WETH : [0xd0A1E359811322d97991E03f863a0C30C2cF029C](https://kovan.etherscan.io/address/0xd0A1E359811322d97991E03f863a0C30C2cF029C)
   * CHI : [0x447287b508b58513de6cd20d9d787cf7e411b5ae](https://kovan.etherscan.io/address/0x447287b508b58513de6cd20d9d787cf7e411b5ae)
-  * governance: [0x44d8e1101bD752DdacCF0dE6133297E0Cf21f270](https://kovan.etherscan.io/address/0x44d8e1101bD752DdacCF0dE6133297E0Cf21f270)
-  * aggregator: [0xD4Cb461eACe80708078450e465881599d2235f1A](https://kovan.etherscan.io/address/0xD4Cb461eACe80708078450e465881599d2235f1A)
-  * factory: [0x5B77b700CeDc6Bf8Ff49Ba1ab09978D5c6177886](https://kovan.etherscan.io/address/0x5B77b700CeDc6Bf8Ff49Ba1ab09978D5c6177886)
-  * router : [0xb383D76976755f2ce66f0031fBFAE9f6786ab1c6](https://kovan.etherscan.io/address/0xb383D76976755f2ce66f0031fBFAE9f6786ab1c6)
+  * governance: [0x91F27E37f9bbD3553E3791ebD8f21cF69C101536](https://kovan.etherscan.io/address/0x91F27E37f9bbD3553E3791ebD8f21cF69C101536)
+  * aggregator: [0x2Ee4Eaf40CBd5D983bdDF92594281C2E00Fffa52](https://kovan.etherscan.io/address/0x2Ee4Eaf40CBd5D983bdDF92594281C2E00Fffa52)
+  * factory: [0x0EAb86c2532C200078358065c461e6C88C03013d](https://kovan.etherscan.io/address/0x0EAb86c2532C200078358065c461e6C88C03013d)
+  * router : [0x466ff2466D08aB2a265b131F0d16fB9685ecC666](https://kovan.etherscan.io/address/0x466ff2466D08aB2a265b131F0d16fB9685ecC666)
 
 ## Compiling
 

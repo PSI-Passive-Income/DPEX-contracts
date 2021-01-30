@@ -15,7 +15,7 @@ const config: HardhatUserConfig = {
       forking: {
         enabled: true,
         url: `${process.env.MAIN_ALCHEMY_URL}`,
-        blockNumber: 11747279
+        blockNumber: 11754056
       }
     },
     kovan: {

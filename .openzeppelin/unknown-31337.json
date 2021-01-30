@@ -1,9 +1,9 @@
 {
   "manifestVersion": "3.1",
   "impls": {
-    "198fc066a29af6311944dda50c87e1eaf15a7f86763364079c6cd2cf7605942f": {
+    "10ae7a9d224e0ea813f37bc1f38d096b5b4d32f246a959f0ab255cff125b567e": {
       "address": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
-      "txHash": "0xd73e30514780635437147fc7b65c78f6d2b49bafcc83bff70436799480a554d8",
+      "txHash": "0x6c45dae46166c0b6d2dfbba9661b3f0844a1744d4f13e273db9d5b2ba7992e8a",
       "layout": {
         "storage": [
           {
@@ -35,6 +35,18 @@
             "label": "gasToken",
             "type": "t_address",
             "src": "contracts\\DPexGovernance.sol:30"
+          },
+          {
+            "contract": "DPexGovernance",
+            "label": "enableGasPromotion",
+            "type": "t_bool",
+            "src": "contracts\\DPexGovernance.sol:35"
+          },
+          {
+            "contract": "DPexGovernance",
+            "label": "router",
+            "type": "t_address",
+            "src": "contracts\\DPexGovernance.sol:40"
           }
         ],
         "types": {
@@ -44,18 +56,18 @@
           "t_address": {
             "label": "address"
           },
-          "t_array(t_uint256)50_storage": {
-            "label": "uint256[50]"
-          },
           "t_bool": {
             "label": "bool"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]"
           }
         }
       }
     },
-    "5437596ba8d6ac71a60146f529f918b9365315813804e4b12735b962d2d21d3d": {
+    "f38fba8efd2410334001c1160dcb2749f37ca8d0622dbeef00f8525b9198b646": {
       "address": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
-      "txHash": "0xfa3d583ffb9b51e9cfb06fd926f62f3c7abc2e1265db7eb1cf56375c7b6fa786",
+      "txHash": "0x5f79267237bd2857a8ea06a0a028d7d114befbafbe62de3ea29ed83585e6a615",
       "layout": {
         "storage": [
           {
@@ -114,45 +126,39 @@
           },
           {
             "contract": "DPexFeeAggregator",
-            "label": "router",
+            "label": "psi",
             "type": "t_address",
             "src": "contracts\\DPexFeeAggregator.sol:40"
           },
           {
             "contract": "DPexFeeAggregator",
-            "label": "psi",
+            "label": "WETH",
             "type": "t_address",
             "src": "contracts\\DPexFeeAggregator.sol:44"
           },
           {
             "contract": "DPexFeeAggregator",
-            "label": "WETH",
-            "type": "t_address",
-            "src": "contracts\\DPexFeeAggregator.sol:48"
-          },
-          {
-            "contract": "DPexFeeAggregator",
             "label": "dpexFee",
             "type": "t_uint256",
-            "src": "contracts\\DPexFeeAggregator.sol:52"
+            "src": "contracts\\DPexFeeAggregator.sol:48"
           },
           {
             "contract": "DPexFeeAggregator",
             "label": "tokensGathered",
             "type": "t_mapping(t_address,t_uint256)",
-            "src": "contracts\\DPexFeeAggregator.sol:56"
+            "src": "contracts\\DPexFeeAggregator.sol:52"
           },
           {
             "contract": "DPexFeeAggregator",
             "label": "latestRewardSnapshotId",
             "type": "t_uint256",
-            "src": "contracts\\DPexFeeAggregator.sol:60"
+            "src": "contracts\\DPexFeeAggregator.sol:56"
           },
           {
             "contract": "DPexFeeAggregator",
             "label": "rewardSnapshots",
-            "type": "t_mapping(t_uint256,t_struct(RewardSnapshot)1703_storage)",
-            "src": "contracts\\DPexFeeAggregator.sol:64"
+            "type": "t_mapping(t_uint256,t_struct(RewardSnapshot)1432_storage)",
+            "src": "contracts\\DPexFeeAggregator.sol:60"
           }
         ],
         "types": {
@@ -168,7 +174,7 @@
           "t_uint256": {
             "label": "uint256"
           },
-          "t_mapping(t_uint256,t_struct(RewardSnapshot)1703_storage)": {
+          "t_mapping(t_uint256,t_struct(RewardSnapshot)1432_storage)": {
             "label": "mapping(uint256 => struct DPexFeeAggregator.RewardSnapshot)"
           },
           "t_array(t_uint256)49_storage": {
@@ -183,9 +189,9 @@
         }
       }
     },
-    "dd9659df605afeba2b233896a3a1370529a12b8769937e32cefff264e5e02ad6": {
+    "5318c0308c76e89d9d9002db2aa3ff563ca1489f1467a1c5caa1ddc75657c367": {
       "address": "0x0165878A594ca255338adfa4d48449f69242Eb8F",
-      "txHash": "0x913a9287fd02005cf2c615781d5a05119d64708344f650054bd5f4c63a8a2ef3",
+      "txHash": "0xed433bac9a6f3313363c564335b6141ea3c5240db9cd35a440d1c5b2e724aac9",
       "layout": {
         "storage": [
           {

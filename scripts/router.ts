@@ -15,8 +15,6 @@ import { DPexRouter } from '../typechain/DPexRouter';
 import DPexRouterAbi from "../abi/contracts/DPexRouter.sol/DPexRouter.json";
 import { DPexPair } from '../typechain/DPexPair';
 import DPexPairAbi from "../abi/contracts/DPexPair.sol/DPexPair.json";
-import { IUniswapV2Router02 } from '../typechain/IUniswapV2Router02';
-import IUniswapV2Router02ABI from "../abi/contracts/interfaces/IUniswapV2Router02.sol/IUniswapV2Router02.json";
 import ContractUtils from "./library/ContractUtils";
 import { bytecode } from '../artifacts/contracts/DPexFactory.sol/DPexFactory.json'
 import { CalHash } from '../typechain/CalHash';
@@ -60,7 +58,7 @@ const main = async() => {
     // const router: DPexRouter = await upgrades.deployProxy(DPexRouter, [factory.address, weth, governance.address, aggregator.address], { initializer: 'initialize' }) as DPexRouter;
     await router.deployed();
     await router.initialize(factory.address, weth, governance.address, aggregator.address);
-    await aggregator.setRouter(router.address);
+    await governance.setRouter(router.address);
     await aggregator.addFeeToken(weth);
     await aggregator.addFeeToken(psi);
     console.log("DPexRouter deployed to:", router.address);
@@ -84,6 +82,12 @@ const main = async() => {
     const receipt = await ethers.provider.waitForTransaction(transaction.hash);
     console.log("Added liquidity to dpex, gas used:", ethers.utils.formatUnits(receipt.gasUsed, "gwei"));
 
+    const chi = new ethers.Contract("0x0000000000004946c0e9F43F4Dee607b0eF1fA1c", ierc20ABI, signer) as IERC20;
+    // await ContractUtils.checkAllowance(factory.address, signer, chi);
+    // await ContractUtils.checkAllowance(router.address, signer, chi);
+    await ContractUtils.waitForTransaction(chi.connect(signer).transfer(router.address, 20));
+    await ContractUtils.waitForTransaction(governance.setEnableGasPromotion(true));
+
     console.log("User psi balance: ", ethers.utils.formatUnits(await psiContract.balanceOf(signer._address), 9));
     console.log("User ETH balance: ", ethers.utils.formatEther(await signer.getBalance()));
     const swapAmount = ethers.utils.parseUnits("0.01", 9);
@@ -95,10 +99,6 @@ const main = async() => {
     console.log("Swapped psi to eth, gas used:", ethers.utils.formatUnits(swapreceipt.gasUsed, "gwei"));
     console.log("User psi balance: ", ethers.utils.formatUnits(await psiContract.balanceOf(signer._address), 9));
     console.log("User ETH balance: ", ethers.utils.formatEther(await signer.getBalance()));
-
-    const chi = new ethers.Contract("0x0000000000004946c0e9F43F4Dee607b0eF1fA1c", ierc20ABI, signer) as IERC20;
-    await ContractUtils.checkAllowance(factory.address, signer, chi);
-    await ContractUtils.checkAllowance(router.address, signer, chi);
 
     console.log("User psi balance: ", ethers.utils.formatUnits(await psiContract.balanceOf(signer._address), 9));
     console.log("User ETH balance: ", ethers.utils.formatEther(await signer.getBalance()));

@@ -3,24 +3,16 @@
 require("dotenv").config({path: `${__dirname}/.env`});
 import { BigNumber, ContractTransaction, PayableOverrides } from "ethers";
 import { network, ethers, upgrades } from "hardhat";
-import { DPexFactory } from "../typechain/DPexFactory";
-import DPexFactoryAbi from "../abi/contracts/DPexFactory.sol/DPexFactory.json";
 import { IERC20 } from "../typechain/IERC20";
 import ierc20ABI from "../abi/@openzeppelin/contracts/token/ERC20/IERC20.sol/IERC20.json";
+import { DPexFactory } from "../typechain/DPexFactory";
+import DPexFactoryAbi from "../abi/contracts/DPexFactory.sol/DPexFactory.json";
 import { DPexGovernance } from '../typechain/DPexGovernance';
 import DPexGovernanceAbi from "../abi/contracts/DPexGovernance.sol/DPexGovernance.json";
 import { DPexFeeAggregator } from '../typechain/DPexFeeAggregator';
 import DPexFeeAggregatorAbi from "../abi/contracts/DPexFeeAggregator.sol/DPexFeeAggregator.json";
 import { DPexRouter } from '../typechain/DPexRouter';
 import DPexRouterAbi from "../abi/contracts/DPexRouter.sol/DPexRouter.json";
-import { DPexPair } from '../typechain/DPexPair';
-import DPexPairAbi from "../abi/contracts/DPexPair.sol/DPexPair.json";
-import { IUniswapV2Router02 } from '../typechain/IUniswapV2Router02';
-import IUniswapV2Router02ABI from "../abi/contracts/interfaces/IUniswapV2Router02.sol/IUniswapV2Router02.json";
-import ContractUtils from "./library/ContractUtils";
-import { bytecode } from '../artifacts/contracts/DPexFactory.sol/DPexFactory.json'
-import { CalHash } from '../typechain/CalHash';
-import { keccak256 } from '@ethersproject/solidity'
 
 const main = async() => {
 
@@ -33,19 +25,19 @@ const main = async() => {
     const psi: string = "0x92FcE27e6b5F86237D2B1974266D27C2788fa237";
     const psiContract = new ethers.Contract(psi, ierc20ABI, signer) as IERC20;
 
-    // const governance = new ethers.Contract("0x12d181455C792C6a26a78823dB55c1aDDD3AC910", DPexGovernanceAbi, signer) as DPexGovernance;
+    // const governance = new ethers.Contract("0x91F27E37f9bbD3553E3791ebD8f21cF69C101536", DPexGovernanceAbi, signer) as DPexGovernance;
     const DPexGovernance = await ethers.getContractFactory("DPexGovernance");
     const governance: DPexGovernance = await upgrades.deployProxy(DPexGovernance, [], { initializer: 'initialize' }) as DPexGovernance;
     await governance.deployed();
     console.log("DPexGovernance deployed to:", governance.address);
 
-    // const aggregator = new ethers.Contract("0x4E4B68c4161C1bE77133c2b94b10625679292E6f", DPexFeeAggregatorAbi, signer) as DPexFeeAggregator;
+    // const aggregator = new ethers.Contract("0x2Ee4Eaf40CBd5D983bdDF92594281C2E00Fffa52", DPexFeeAggregatorAbi, signer) as DPexFeeAggregator;
     const DPexFeeAggregator = await ethers.getContractFactory("DPexFeeAggregator");
     const aggregator: DPexFeeAggregator = await upgrades.deployProxy(DPexFeeAggregator, [governance.address, weth, psi], { initializer: 'initialize', unsafeAllowCustomTypes: true }) as DPexFeeAggregator;
     await aggregator.deployed();
     console.log("DPexFeeAggregator deployed to:", aggregator.address);
 
-    // const factory = new ethers.Contract("0x1DeAFD0E3fa0C4088E3873494DBfC98CB76182B6", DPexFactoryAbi, signer) as DPexFactory;
+    // const factory = new ethers.Contract("0x0EAb86c2532C200078358065c461e6C88C03013d", DPexFactoryAbi, signer) as DPexFactory;
     const DPexFactory = await ethers.getContractFactory("DPexFactory");
     const factory: DPexFactory = await upgrades.deployProxy(DPexFactory, ["0x2C9C756A7CFd79FEBD2fa9b4C82c10a5dB9D8996", governance.address], { initializer: 'initialize' }) as DPexFactory;
     await factory.deployed();
@@ -57,8 +49,9 @@ const main = async() => {
     // const router: DPexRouter = await upgrades.deployProxy(DPexRouter, [factory.address, weth, governance.address, aggregator.address], { initializer: 'initialize' }) as DPexRouter;
     await router.deployed();
     await router.initialize(factory.address, weth, governance.address, aggregator.address);
-    await aggregator.setRouter(router.address);
     console.log("DPexRouter deployed to:", router.address);
+
+    await governance.setRouter(router.address);
     await aggregator.addFeeToken(weth);
     await aggregator.addFeeToken(psi);
 
